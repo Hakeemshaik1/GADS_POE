@@ -44,9 +44,10 @@ public class MouseInput : MonoBehaviour
         if (hits.collider != null)
         {
             IClick click = hits.collider.GetComponent<IClick>();
-            if (click != null) { click.OnClickObject(); }
+            if (click != null) { click.OnClickObject(hits.rigidbody); }
             Debug.Log(hits.collider.tag);
         }
+        
     }
     private void Changecursor(Texture2D cursorType)
     {

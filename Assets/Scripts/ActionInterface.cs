@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IClick
 {
-    void OnClickObject();
+    void OnClickObject(Rigidbody2D obj);
 }

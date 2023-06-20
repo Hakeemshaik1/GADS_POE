@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class ObjectMenu : MonoBehaviour, IClick
 {
-    public void OnClickObject()
+    public void OnClickObject(Rigidbody2D obj)
     {
-        Destroy(gameObject);
+        while(obj.transform.position.y <= 4)
+        {
+            obj.gravityScale = -0.5f;
+        }
+        
         Debug.Log("it works");
     }
 }
