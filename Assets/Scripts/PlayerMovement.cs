@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Playermovemnt : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D rb;
     public Animator animator;
+    public SpriteRenderer player;
     public float jumpForce;
     public float moveSpeed;
 
@@ -15,6 +16,7 @@ public class Playermovemnt : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        player = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -44,9 +46,16 @@ public class Playermovemnt : MonoBehaviour
     private void Move(float direction)
     {
         rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
-
         animator.SetBool("Walk",true);
-       
+        if (direction < 0)
+        {
+            player.flipX = true;
+        }
+        if(direction > 0)
+        {
+            player.flipX = false;
+        }
+        
     }
 
     private void StopMoving()
