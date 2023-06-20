@@ -55,7 +55,6 @@ public class PlayerMovement : MonoBehaviour
         {
             player.flipX = false;
         }
-        
     }
 
     private void StopMoving()
