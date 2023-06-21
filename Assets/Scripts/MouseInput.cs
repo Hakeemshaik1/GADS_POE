@@ -5,7 +5,7 @@ using UnityEngine;
 public class MouseInput : MonoBehaviour
 {
     public Texture2D cursor;
-    public Texture2D clicker;
+    public GameObject panel;
     private CursorController control;
     private Camera cam;
     public Rigidbody2D store;
@@ -15,6 +15,7 @@ public class MouseInput : MonoBehaviour
         Changecursor(cursor);
         Cursor.lockState = CursorLockMode.Confined;
         cam = Camera.main;
+        panel.SetActive(false);
     }
     private void OnEnable()
     {
@@ -32,15 +33,20 @@ public class MouseInput : MonoBehaviour
     {
         DetectObject();
     }
-    private void DetectObject()
+    public void DetectObject()
     {
         Ray ray = cam.ScreenPointToRay(control.Mouse.Position.ReadValue<Vector2>());
         RaycastHit2D hits = Physics2D.GetRayIntersection(ray);
         if (hits.collider != null)
         {
-            //OnClickObject(hits.rigidbody);
             store = hits.rigidbody;
+            panel.SetActive(true);
         }
+    }
+    public void ClearObject()
+    {
+        store = null;
+        panel.SetActive(false);
     }
     private void Changecursor(Texture2D cursorType)
     {
