@@ -20,7 +20,7 @@ public class GravityFunctions : MonoBehaviour
     {
         if (rb != null)
         {
-            rb.gravityScale = -0.5f;
+            rb.gravityScale = -1f;
             gravityreset = false;
         }
     }
@@ -41,6 +41,20 @@ public class GravityFunctions : MonoBehaviour
                 rb.velocity = Vector2.zero;
                 rb.gravityScale = 0f;
             }
+        }
+    }
+    public void IncreaseMass()
+    {
+        if (rb != null)
+        {
+            rb.mass++;
+        }
+    }
+    public void DecreaseMass()
+    {
+        if (rb != null)
+        {
+            rb.mass--;
         }
     }
 }
