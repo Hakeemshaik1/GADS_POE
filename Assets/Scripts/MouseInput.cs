@@ -8,6 +8,8 @@ public class MouseInput : MonoBehaviour
     public Texture2D clicker;
     private CursorController control;
     private Camera cam;
+    private bool gravityReset = false;
+    private Rigidbody2D store;
     private void Awake()
     {
         control = new CursorController();
@@ -25,16 +27,14 @@ public class MouseInput : MonoBehaviour
     }
     private void Start()
     {
-        control.Mouse.Click.started += _ => StartClick();
         control.Mouse.Click.performed += _ => EndClick();
     }
-    private void StartClick()
+    private void Update()
     {
-        Changecursor(clicker);
+        StopEffect(store);
     }
     private void EndClick()
     {
-        Changecursor(cursor);
         DetectObject();
     }
     private void DetectObject()
@@ -43,11 +43,27 @@ public class MouseInput : MonoBehaviour
         RaycastHit2D hits = Physics2D.GetRayIntersection(ray);
         if (hits.collider != null)
         {
-            IClick click = hits.collider.GetComponent<IClick>();
-            if (click != null) { click.OnClickObject(hits.rigidbody); }
-            Debug.Log(hits.collider.tag);
+            //OnClickObject(hits.rigidbody);
+            StartEffect(hits.rigidbody);
+            store = hits.rigidbody;
         }
-        
+    }
+    public void StartEffect(Rigidbody2D obj)
+    {
+        obj.gravityScale = -0.5f;
+        gravityReset = true;
+    }
+    private void StopEffect(Rigidbody2D scale)
+    {
+        if (scale != null)
+        {
+            if (scale.gameObject.transform.position.y > 3f && gravityReset == true)
+            {
+                scale.velocity = Vector2.zero;
+                scale.gravityScale = 0f;
+                //gravityReset = false;
+            }
+        }
     }
     private void Changecursor(Texture2D cursorType)
     {
