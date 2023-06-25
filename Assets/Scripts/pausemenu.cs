@@ -8,6 +8,7 @@ public class pausemenu : MonoBehaviour
     public GameObject optionsMenuUI;
     public GameObject scaleMenuUI;
     public GameObject controlsMenuUI;
+    public GameObject effectPanel;
     public Camera mainCamera;
 
     private bool isPaused = false;
@@ -35,6 +36,7 @@ public class pausemenu : MonoBehaviour
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
+        effectPanel.SetActive(false);
     }
 
     public void OpenOptionsMenu()

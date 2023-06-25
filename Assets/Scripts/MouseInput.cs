@@ -39,8 +39,11 @@ public class MouseInput : MonoBehaviour
         RaycastHit2D hits = Physics2D.GetRayIntersection(ray);
         if (hits.collider != null)
         {
-            store = hits.rigidbody;
-            panel.SetActive(true);
+            if(hits.collider.CompareTag("Object"))
+            {
+                store = hits.rigidbody;
+                panel.SetActive(true);
+            } 
         }
     }
     public void ClearObject()
