@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GravityFunctions : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private bool gravityreset = false;
+    private bool gravityreset;
     // Update is called once per frame
     private void Awake()
     {
-        
+        gravityreset = false;
     }
     private void Update()
     {
