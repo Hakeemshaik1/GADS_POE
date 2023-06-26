@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed;
 
     private bool isJumping;
+    private bool canJump = true;
 
     private void Start()
     {
@@ -31,7 +32,8 @@ public class PlayerMovement : MonoBehaviour
         {
             StopMoving();
         }
-        if (Input.GetKey(KeyCode.Space) && !isJumping)
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isJumping && canJump)
         {
             Jump();
             StopMoving();
@@ -40,18 +42,18 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Space))
         {
             StopJump();
-             
         }
     }
+
     private void Move(float direction)
     {
         rb.velocity = new Vector2(direction * moveSpeed, rb.velocity.y);
-        animator.SetBool("Walk",true);
+        animator.SetBool("Walk", true);
         if (direction < 0)
         {
             player.flipX = true;
         }
-        if(direction > 0)
+        else if (direction > 0)
         {
             player.flipX = false;
         }
@@ -60,18 +62,31 @@ public class PlayerMovement : MonoBehaviour
     private void StopMoving()
     {
         rb.velocity = new Vector2(0f, rb.velocity.y);
-        animator.SetBool("Walk",false);
+        animator.SetBool("Walk", false);
     }
+
     private void Jump()
     {
         rb.AddForce(new Vector2(rb.velocity.x, jumpForce));
-        animator.SetBool("Jump",true);
+        animator.SetBool("Jump", true);
         isJumping = true;
+        canJump = false; // Disable jumping until the player lands
     }
 
     private void StopJump()
     {
-        isJumping = false;
-        animator.SetBool("Jump", false);
+        if (isJumping)
+        {
+            isJumping = false;
+            animator.SetBool("Jump", false);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Object"))
+        {
+            canJump = true; // Enable jumping when the player lands on the ground or the object with the desired tag
+        }
     }
 }
